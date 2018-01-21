@@ -1,0 +1,13 @@
+; This file was generated automatically by Ansible {{ template_host }} found in
+; {{ template_fullpath }}
+; All changes will be automatically overwritten by Ansible.
+
+[{{ hostName }}]
+user = php_web
+group = php_web
+listen = 9000
+pm = dynamic
+pm.max_children = 5
+pm.start_servers = 2
+pm.min_spare_servers = 1
+pm.max_spare_servers = 3

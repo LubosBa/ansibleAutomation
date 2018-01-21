@@ -1,0 +1,5 @@
+- name: Setup Nginx configuration for the vhost.
+  template:
+    src: vhost.conf.j2
+    dest: /data/containers/conf/webs1.m8.sk/sites-enabled/{{ hostName }}
+    mode: 0644

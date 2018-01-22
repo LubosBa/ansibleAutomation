@@ -3,9 +3,18 @@
     src: vhost.conf.j2
     dest: /data/containers/conf/webs1.m8.sk/sites-enabled/{{ hostName }}
     mode: 0644
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 51ca7859a90feb7c07cabe7d961f351eb91c43b0
 
 - name: Create base folders for container.
   file:
      path: /data/containers/logs/webs1.m8.sk/{{ hostName }}
      state: directory
      mode: 0755
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 22273f34d23a8720eb03f5e3b204cd26e56808ef
+>>>>>>> 51ca7859a90feb7c07cabe7d961f351eb91c43b0

@@ -1,0 +1,5 @@
+- name: Setup FPM configuration for the container.
+  import_tasks: fpm_setup.yml
+
+- name: Setup Nginx configuration for the container.
+  import_tasks: nginx_vhost_setup.yml

@@ -1,0 +1,16 @@
+- name: Setup FPM configuration for the container.
+  copy:
+    src: "{{ item }}"
+    dest: "/data/containers/conf/{{ hostName }}"
+    owner: 9999
+    group: 9999
+  with_items:
+    - fpm
+    - mods-available
+    - phpdbg
+
+- name: Create FPM pool configuration.
+  template:
+    src: www.conf.j2
+    dest: "/data/containers/conf/{{ hostName }}/fpm/pool.d/{{ hostName }}.conf"
+    mode: 0644

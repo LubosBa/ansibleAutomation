@@ -1,0 +1,26 @@
+- name: Create base folders for container.
+  file:
+     path: /data/containers/{{ item }}/{{ hostName }}
+     state: directory
+     mode: 0755
+     owner: 9999
+     group: 9999
+  with_items:
+    - conf
+    - logs
+
+- name: Create vhost folder.
+  file:
+     path: /data/containers/data/webs1.m8.sk/{{ hostName }}
+     state: directory
+     mode: 0755
+     owner: 9999
+     group: 9999
+
+- name: Create vhost folder.
+  file:
+     path: /data/containers/data/webs1.m8.sk/{{ hostName }}/public_html
+     state: directory
+     mode: 0755
+     owner: 9999
+     group: 9999

@@ -1,0 +1,11 @@
+- name: Setup Nginx configuration for the vhost.
+  template:
+    src: vhost.conf.j2
+    dest: /data/containers/conf/webs1.m8.sk/sites-enabled/{{ hostName }}
+    mode: 0644
+
+- name: Create base folders for container.
+  file:
+     path: /data/containers/logs/webs1.m8.sk/{{ hostName }}
+     state: directory
+     mode: 0755

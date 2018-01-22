@@ -14,8 +14,8 @@ server {
         ##
         # SSL
         ##
-        ssl_certificate /etc/nginx/ssl/le_auto_gen/fullchain/lubos.sk.crt;
-        ssl_certificate_key /etc/nginx/ssl/le_auto_gen/csr/lubos.sk.pkey;
+        ssl_certificate /config/ssl/le_auto_gen/fullchain/lubos.sk.crt;
+        ssl_certificate_key /config/ssl/le_auto_gen/csr/lubos.sk.pkey;
 
         ssl_ciphers "AES256+EECDH:AES256+EDH";
         ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
@@ -26,10 +26,10 @@ server {
         add_header X-Content-Type-Options nosniff;
         ssl_stapling on;
         ssl_stapling_verify on;
-        ssl_trusted_certificate /etc/nginx/ssl/alphassl_root_ca/root_ca.crt;
+        #ssl_trusted_certificate /etc/nginx/ssl/alphassl_root_ca/root_ca.crt;
         resolver 8.8.8.8 8.8.4.4 valid=300s;
         resolver_timeout 5s;
-        ssl_dhparam /etc/ssl/certs/dhparam.pem;
+        ssl_dhparam /config/ssl/dhparam.pem;
 
         ##
         # Cache
@@ -57,8 +57,8 @@ server {
                         try_files $uri =404;
                         #include fastcgi_params;
                         include fastcgi.conf;
-                        fastcgi_param  SCRIPT_FILENAME    /www/$server_name/public_html/$fastcgi_script_name;
-                        fastcgi_pass {{hostName }}:9000;
+                        fastcgi_param  SCRIPT_FILENAME    /www/public_html/$fastcgi_script_name;
+                        fastcgi_pass {{ hostName }}:9000;
         }
 
 

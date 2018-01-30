@@ -1,0 +1,7 @@
+docker run -d --network=no_internet  \
+--hostname=services.lubos.sk \
+--name=services-lubos-sk \
+--volume=/data/containers/data/webs1.m8.sk/services.lubos.sk:/www \
+--volume=/data/containers/logs/services.lubos.sk:/logs \
+--volume=/data/containers/conf/services.lubos.sk:/config \
+fpm-lubos:latest

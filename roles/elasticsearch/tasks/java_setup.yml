@@ -1,0 +1,21 @@
+- name: Create folder for JRE.
+  file:
+    path: "{{ globalFolder }}/{{ item }}"
+    state: directory
+    mode: 0755
+  with_items:
+    - java
+    - temp
+
+- name: Download JRE.
+  get_url:
+    url: "{{ javaUrl }}"
+    dest: "{{ globalFolder }}/temp"
+    mode: 0644
+
+- name: Unpack JRE.
+  unarchive:
+    src: /opt/temp/java.tar.gz
+    dest: "{{ globalFolder }}/java"
+    extra_opts: [--strip-components=1]
+    remote_src: yes

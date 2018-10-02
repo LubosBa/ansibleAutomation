@@ -1,0 +1,12 @@
+# Instance config variables.
+globalFolder: "/opt"
+globalPackageFolder: "elasticsearch"
+baseFolder: "/source/elasticsearch"
+
+# Remote content
+javaUrl: https://f.lubos.sk/docker/java.tar.gz
+elasticUrl: "https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/tar/elasticsearch/2.4.6/elasticsearch-2.4.6.tar.gz"
+elasticPackage: "elasticsearch-2.4.6.tar.gz"
+
+# ElasticSearch config template variables.
+clusterName: "TEST.CLUSTER"

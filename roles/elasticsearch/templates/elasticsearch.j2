@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# Startup ElasticSearch instance.
+JAVA_HOME=/opt/java
+export PATH=${PATH}:${JAVA_HOME}/bin
+
+{{ globalFolder }}/elasticsearch/bin/elasticsearch -d --path.conf={{ baseFolder }}/conf/

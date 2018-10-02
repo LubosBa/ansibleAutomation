@@ -1,0 +1,50 @@
+- name: Create base folder for Elasticsearch product.
+  file:
+    path: "{{ baseFolder }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: 0755
+
+- name: Create base folders for ElasticSearch product.
+  file:
+    path: "{{ baseFolder }}/{{ item }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: 0755
+  with_items:
+    - data
+    - conf
+    - bin
+    - logs
+    - run
+    - plugins
+
+- name: Copy logging configuration of ElasticSearch.
+  copy:
+    src: "{{ globalFolder }}/{{ globalPackageFolder }}/{{ elasticPackage | regex_replace('.tar.gz$') }}/config/logging.yml"
+    dest: "{{ baseFolder }}/conf/logging.yml"
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    remote_src: yes
+    mode: 0644
+    
+- name: Generate ElasticSearch configuration.
+  template:
+    src: elasticsearch.yml.j2
+    dest: "{{ baseFolder }}/conf/elasticsearch.yml"
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: 0644
+
+- name: Generate ElasticSearch startup script.
+  template:
+    src: elasticsearch.j2
+    dest: "{{ baseFolder }}/bin/elasticsearch"
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: 0755
+
+- name: Startup ElasticSearch.
+  shell: "{{ baseFolder }}/bin/elasticsearch"

@@ -1,0 +1,18 @@
+- name: Create system user for ElasticSearch.
+  user:
+    name: "{{ user }}"
+    shell: /bin/bash
+    create_home: yes
+    state: present
+
+- name: Setup Java home
+  lineinfile:
+    path: "/home/{{ user }}/.profile"
+    regexp: "^JAVA_HOME"
+    line: "JAVA_HOME=/opt/java"
+
+- name: Add java to PATH.
+  lineinfile:
+    path: "/home/{{ user }}/.profile"
+    regexp: '^export PATH=\$\{PATH\}:\$\{JAVA_HOME\}/bin'
+    line: "export PATH=${PATH}:${JAVA_HOME}/bin"

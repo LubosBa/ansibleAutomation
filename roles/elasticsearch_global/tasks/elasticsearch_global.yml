@@ -1,0 +1,20 @@
+- name: Create global folder for ElasticSearch.
+  file:
+    path: "{{ globalFolder }}/{{ globalPackageFolder }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: 0755
+
+- name: Download ElasticSearch.
+  local_action:
+    module: get_url
+    url: "{{ elasticUrl }}"
+    dest: "temp/{{ elasticPackage }}"
+    mode: 0644
+  run_once: True
+
+- name: Unpack ElasticSearch.
+  unarchive:
+    src: "temp/{{ elasticPackage }}"
+    dest: "{{ globalFolder }}/elasticsearch"

@@ -1,0 +1,2 @@
+- name: Install global system-wide Java package.
+  import_tasks: java_setup.yml

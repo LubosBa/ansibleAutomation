@@ -1,4 +1,6 @@
 ---
 - hosts: elasticsearch
   roles:
+    - java_global
     - elasticsearch_global
+    - elasticsearch

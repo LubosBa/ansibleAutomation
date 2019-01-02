@@ -1,2 +1,5 @@
+- name: Setup server environment.
+  import_tasks: user_setup.yml
+  
 - name: Install global system-wide ElasticSearch package.
   import_tasks: elasticsearch_global.yml

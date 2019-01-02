@@ -5,17 +5,19 @@
     mode: 0755
   with_items:
     - java
-    - temp
 
 - name: Download JRE.
-  get_url:
+  local_action:
+    module: get_url
     url: "{{ javaUrl }}"
-    dest: "{{ globalFolder }}/temp"
+    dest: "temp/{{ javaPackage }}"
     mode: 0644
+  run_once: True
 
 - name: Unpack JRE.
   unarchive:
-    src: /opt/temp/java.tar.gz
+    src: "temp/{{ javaPackage }}"
     dest: "{{ globalFolder }}/java"
     extra_opts: [--strip-components=1]
-    remote_src: yes
+    owner: "{{ user }}"
+    group: "{{ user }}"

@@ -1,8 +1,2 @@
-- name: Setup Java Run Time environment.
-  import_tasks: java_setup.yml
-
-- name: Setup server environment.
-  import_tasks: user_setup.yml
-
 - name: Setup ElasticSearch.
   import_tasks: elasticsearch_setup.yml

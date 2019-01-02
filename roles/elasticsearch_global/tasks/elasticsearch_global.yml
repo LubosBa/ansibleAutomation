@@ -17,4 +17,4 @@
 - name: Unpack ElasticSearch.
   unarchive:
     src: "temp/{{ elasticPackage }}"
-    dest: "{{ globalFolder }}/elasticsearch"
+    dest: "{{ globalFolder }}/{{ globalPackageFolder }}"

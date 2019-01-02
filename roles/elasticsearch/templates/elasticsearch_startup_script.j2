@@ -1,0 +1,67 @@
+#!/bin/bash
+
+#Exports JAVA_HOME and other variables
+JAVA_HOME="{{ globalFolder }}/java"
+PATH=${PATH}:${JAVA_HOME}/bin
+export JAVA_HOME PATH
+### Instance env vars.
+PIDFILE="{{ baseFolder }}/run/elastic.pid"
+ELASTIC="{{ globalFolder }}/{{ globalPackageFolder }}/{{ elasticPackage | regex_replace('.tar.gz$') }}/bin/elasticsearch"
+CONF="{{ baseFolder }}/conf"
+ES_JVM_OPTIONS="${CONF}/jvm.options"
+ES_PATH_CONF="${CONF}"
+export ES_JVM_OPTIONS ES_PATH_CONF
+
+function start {
+	if [[ -f "$PIDFILE" ]]; then
+		/bin/ps $(cat ${PIDFILE} ) &> /dev/null
+		if [[ "${?}" -eq "1" ]]; then
+			echo "Starting Elastic"
+			${ELASTIC} -d --pidfile ${PIDFILE}
+		else
+			echo "Elastic is already running"
+		fi
+	else
+	    ${ELASTIC} -d --pidfile ${PIDFILE}
+	fi
+}
+
+function stop {
+	echo "Stopping Elastic search"
+	if [[ -f "${PIDFILE}" ]]; then
+		kill $(cat ${PIDFILE})
+
+		if [[ "${?}" -eq "0" ]]; then
+			echo "[ SUCCESS ] Elastic search stopped"
+			exit 0
+		else
+			exit 1
+		fi
+
+	else
+		echo "No pid file, is ElasticSearch running?"
+		exit 0
+	fi
+}
+
+function restart {
+	stop
+	sleep 2
+	start
+}
+
+
+case "${1}" in
+  start)
+     start
+     ;;
+  stop)
+     stop
+     ;;
+  restart)
+     restart
+     ;;
+  *)
+     echo "Usage: $0 {start|stop|restart|status}"
+     exit 1
+esac

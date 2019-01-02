@@ -23,8 +23,8 @@
 
 - name: Copy logging configuration of ElasticSearch.
   copy:
-    src: "{{ globalFolder }}/{{ globalPackageFolder }}/{{ elasticPackage | regex_replace('.tar.gz$') }}/config/logging.yml"
-    dest: "{{ baseFolder }}/conf/logging.yml"
+    src: "{{ globalFolder }}/{{ globalPackageFolder }}/{{ elasticPackage | regex_replace('.tar.gz$') }}/config/log4j2.properties"
+    dest: "{{ baseFolder }}/conf/log4j2.properties"
     owner: "{{ user }}"
     group: "{{ user }}"
     remote_src: yes
@@ -40,11 +40,16 @@
 
 - name: Generate ElasticSearch startup script.
   template:
-    src: elasticsearch.j2
+    src: elasticsearch_startup_script.j2
     dest: "{{ baseFolder }}/bin/elasticsearch"
     owner: "{{ user }}"
     group: "{{ user }}"
     mode: 0755
 
-- name: Startup ElasticSearch.
-  shell: "{{ baseFolder }}/bin/elasticsearch"
+- name: Copy JVM configuration
+  template:
+    src: jvm.options.j2
+    dest: "{{ baseFolder }}/conf/jvm.options"
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: 0644

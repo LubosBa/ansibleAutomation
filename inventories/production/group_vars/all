@@ -1,3 +1,7 @@
 # Global variables used for all roles.
 user: elastic
 env: "DEV"
+
+# Java global configuration
+javaUrl: https://f.lubos.sk/docker/java.tar.gz
+javaPackage: "java.tar.gz"

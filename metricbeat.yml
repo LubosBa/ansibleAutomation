@@ -1,0 +1,6 @@
+---
+    - hosts: metricbeat
+      roles:
+        - metricbeat_global
+        - metricbeat
+    

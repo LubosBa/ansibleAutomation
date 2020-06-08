@@ -1,0 +1,26 @@
+# Instance config variables.
+globalFolder: "/opt"
+globalPackageFolder: "metricbeat"
+metricbeatUser: "root"
+
+
+# Remote content
+metricbeatcUrl: "https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-7.6.2-linux-x86_64.tar.gz"
+metricbeatArmUrl: "https://f.lubos.sk/docker/metricbeat-7.6.2-linux-arm.tar.gz"
+metricbeatPackage: "metricbeat-7.6.2-linux-x86_64.tar.gz"
+metricbeatFolder: "{{ metricbeatPackage | regex_replace('.tar.gz$') }}"
+
+# Cert server.
+sshHost: "lubos.sk"
+sshUser: "root"
+sshCertBaseFolder: "/data/containers/conf/webs1.m8.sk/ssl/le_auto_gen"
+
+# Metricbeat configs.
+kafkaHosts: "kafs1.m8.sk:9093"
+kafkaTopic: "logs-metricbeats"
+
+# Metricbeat modules config.
+# Docker
+metricbeatDockerModuleEnabled: true
+metricbeatDockerModuleSocket: "unix:///var/run/docker.sock"
+metricbeatDockerModulePeriod: "10s"

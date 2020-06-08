@@ -1,0 +1,23 @@
+- name: Create global folder for Metricbeat.
+  file:
+    path: "{{ globalFolder }}/{{ globalPackageFolder }}"
+    state: directory
+    owner: "{{ metricbeatUser }}"
+    group: "{{ metricbeatUser }}"
+    mode: 0755
+
+- name: Download Metricbeat x86_64 package.
+  local_action:
+    module: get_url
+    url: "{{ metricbeatcUrl }}"
+    dest: "temp/{{ metricbeatPackage }}"
+    mode: 0644
+  when: ansible_facts['architecture'] == "x86_64"
+  run_once: True
+
+- name: Unpack Metricbeat.
+  unarchive:
+    src: "temp/{{ metricbeatPackage }}"
+    dest: "{{ globalFolder }}/{{ globalPackageFolder }}"
+    creates: "{{ globalFolder }}/{{ globalPackageFolder }}/{{ metricbeatFolder }}"
+    owner: "{{ metricbeatUser }}"

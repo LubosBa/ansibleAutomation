@@ -1,0 +1,84 @@
+- name: Delete modules.d folder for our custom module configs.
+  file:
+    path: "{{ globalFolder }}/{{ globalPackageFolder }}/{{ metricbeatFolder }}/{{ item }}"
+    state: absent
+  with_items:
+    - modules.d
+    - metricbeat.yml
+
+- name: Create modules.d folder for our custom module configs.
+  file:
+    path: "{{ globalFolder }}/{{ globalPackageFolder }}/{{ metricbeatFolder }}/modules.d"
+    state: directory
+    owner: "{{ metricbeatUser }}"
+    group: "{{ metricbeatUser }}"
+    mode: 0755
+
+- name: Create certs folder for SSL certs.
+  file:
+    path: "{{ globalFolder }}/{{ globalPackageFolder }}/{{ metricbeatFolder }}/certs"
+    state: directory
+    owner: "{{ metricbeatUser }}"
+    group: "{{ metricbeatUser }}"
+    mode: 0755
+
+- name: Generate Metricbeat configuration.
+  template:
+    src: metricbeat.yml.j2
+    dest: "{{ globalFolder }}/{{ globalPackageFolder }}/{{ metricbeatFolder }}/metricbeat.yml"
+    owner: "{{ metricbeatUser }}"
+    group: "{{ metricbeatUser }}"
+    mode: 0644
+
+- name: Generate Metricbeat Docker module configuration.
+  template:
+    src: modules.d/docker.yml.j2
+    dest: "{{ globalFolder }}/{{ globalPackageFolder }}/{{ metricbeatFolder }}/modules.d/docker.yml"
+    owner: "{{ metricbeatUser }}"
+    group: "{{ metricbeatUser }}"
+    mode: 0644
+  when: metricbeatDockerModuleEnabled
+
+- name: Generate Metricbeat System module configuration.
+  template:
+    src: modules.d/system.yml.j2
+    dest: "{{ globalFolder }}/{{ globalPackageFolder }}/{{ metricbeatFolder }}/modules.d/system.yml"
+    owner: "{{ metricbeatUser }}"
+    group: "{{ metricbeatUser }}"
+    mode: 0644
+
+- name: Download SSL certs from our cert server.
+  local_action:
+    module: shell
+    cmd: "rsync -avh {{ sshUser }}@{{ sshHost }}:{{ sshCertBaseFolder }}/{{ item }} temp/"
+  with_items:
+    - certs/m8.sk.crt
+    - csr/m8.sk.pkey
+    - fullchain/le-edge.pem
+  run_once: True
+
+- name: Copy SSH certs to the host.
+  copy:
+    src: "temp/{{ item }}"
+    dest: "{{ globalFolder }}/{{ globalPackageFolder }}/{{ metricbeatFolder }}/certs/{{ item }}"
+    owner: "{{ metricbeatUser }}"
+    group: "{{ metricbeatUser }}"
+    mode: 0644
+  with_items:
+    - m8.sk.crt
+    - m8.sk.pkey
+    - le-edge.pem
+
+- name: Generate Metricbeat systemd service unit.
+  template:
+    src: metricbeat.service.j2
+    dest: "/etc/systemd/system/metricbeat.service"
+    owner: "{{ metricbeatUser }}"
+    group: "{{ metricbeatUser }}"
+    mode: 0644
+
+- name: Enable Metricbeat systemd service unit.
+  systemd:
+    enabled: yes
+    state: started
+    name: metricbeat.service

@@ -1,0 +1,2 @@
+ - name: Install global system-wide Metricbeat package.
+   import_tasks: metricbeat_global.yml

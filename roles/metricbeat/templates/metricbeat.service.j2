@@ -1,0 +1,11 @@
+[Unit]
+Description=Metricbeat service unit.
+
+[Service]
+Type=exec
+ExecStart={{ globalFolder }}/{{ globalPackageFolder }}/{{ metricbeatFolder }}/metricbeat run --path.config {{ globalFolder }}/{{ globalPackageFolder }}/{{ metricbeatFolder }}
+Restart=always
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target

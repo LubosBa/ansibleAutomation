@@ -30,6 +30,10 @@
     group: "{{ metricbeatUser }}"
     mode: 0644
 
+- name: Debug pipik
+  debug:
+    msg: Facts {{ ansible_hostname }}
+
 - name: Generate Metricbeat Docker module configuration.
   template:
     src: modules.d/docker.yml.j2
@@ -37,7 +41,20 @@
     owner: "{{ metricbeatUser }}"
     group: "{{ metricbeatUser }}"
     mode: 0644
-  when: metricbeatDockerModuleEnabled
+  when:
+    - metricbeatDockerModuleEnabled
+    - ansible_hostname in metricbeatDockerHosts
+
+- name: Generate Metricbeat elasticsearch module configuration.
+  template:
+    src: modules.d/elasticsearch.yml.j2
+    dest: "{{ globalFolder }}/{{ globalPackageFolder }}/{{ metricbeatFolder }}/modules.d/elasticsearch.yml"
+    owner: "{{ metricbeatUser }}"
+    group: "{{ metricbeatUser }}"
+    mode: 0644
+  when:
+    - metricbeatElasticModuleEnabled
+    - ansible_hostname in metricbeatElasticHosts
 
 - name: Generate Metricbeat System module configuration.
   template:

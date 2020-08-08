@@ -24,3 +24,14 @@ kafkaTopic: "logs-metricbeats"
 metricbeatDockerModuleEnabled: true
 metricbeatDockerModuleSocket: "unix:///var/run/docker.sock"
 metricbeatDockerModulePeriod: "10s"
+metricbeatDockerHosts:
+  - hertzner-box
+  - krabica
+
+# Elasticserach
+esMonUser: "mb_es_stats"
+esMonPass: "sx8petkldV"
+esMonHost: "http://els1.m8.sk:9200"
+metricbeatElasticModuleEnabled: true
+metricbeatElasticHosts:
+  - hertzner-box

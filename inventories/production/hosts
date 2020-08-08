@@ -1,11 +1,9 @@
 [elasticsearch]
-157.230.25.203 ansible_user=root 
-157.230.19.69 ansible_user=root
+
 
 [metricbeat]
 krabica.m8.sk ansible_user=root
-lubos.sk ansible_user=root
 hertzner-box.m8.sk user=root
 
 [certstore]
-lubos.sk ansible_user=root
+hertzner-box.m8.sk ansible_user=root
